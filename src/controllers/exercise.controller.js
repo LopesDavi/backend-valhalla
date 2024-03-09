@@ -11,12 +11,34 @@ async function createExercise(req, res) {
       image_url,
     } = req.body;
 
+    // //Padronizando a entrada de dados para UpperCase
+    const upperCaseMuscleName = muscle_name.toUpperCase();
+    const upperCaseExerciseName = exercise_name.toUpperCase();
+    const upperCaseDifficulty = difficulty.toUpperCase();
+    const upperCaseComments = comments.toUpperCase();
+
+    //Verificando se o novo exercício já está criado
+    const existingExercise = await Exercise.findOne({
+      muscle_name: upperCaseMuscleName,
+      exercise_name: upperCaseExerciseName,
+      difficulty: upperCaseDifficulty,
+      comments: upperCaseComments,
+    });
+
+    //Se caso o exercício já existir, emite erro.
+    if (existingExercise) {
+      return res.status(400).json({
+        error: "Erro ao criar exercício",
+        message: "Exercício já existente no Banco de Dados",
+      });
+    }
+
     const newExercise = new Exercise({
-      muscle_name,
-      exercise_name,
+      muscle_name: upperCaseMuscleName,
+      exercise_name: upperCaseExerciseName,
       series,
-      difficulty,
-      comments,
+      difficulty: upperCaseDifficulty,
+      comments: upperCaseComments,
       image_url,
     });
 

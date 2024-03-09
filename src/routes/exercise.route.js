@@ -24,7 +24,7 @@ router.post(
     .notEmpty()
     .withMessage("O campo 'difficulty' não pode ser vazio!"),
   body("comments")
-    .isLength({ max: 1000 })
+    .isLength({ max: 500 })
     .withMessage("O campo 'comments' aceita até 1000 caracteres!"),
   body("image_url")
     .notEmpty()
