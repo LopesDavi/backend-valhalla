@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const exercises = require("./routes/exercise.route");
 const { connectingMongodb } = require("./config/db");
@@ -14,6 +15,9 @@ dotenv.config();
 
 //Middleware para fazer o parse do corpo da requisição (JSON)
 app.use(express.json());
+
+//Aceitar origem cruzada de qualquer lugar
+app.use(cors({ origin: true }));
 
 //Rota principal da API (http://localhost:3000/api-valhalla)
 app.use("/api-valhalla", exercises);
